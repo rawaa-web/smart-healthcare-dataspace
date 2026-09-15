@@ -1,0 +1,10 @@
+flwr[simulation]
+tensorflow
+fastapi
+uvicorn[standard]
+pandas
+numpy
+scikit-learn
+requests
+python-dotenv
+pydantic
