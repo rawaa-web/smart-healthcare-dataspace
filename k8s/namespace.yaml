@@ -1,0 +1,5 @@
+# S5 — namespace holding every service of the data space.
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: smart-healthcare

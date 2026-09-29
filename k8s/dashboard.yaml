@@ -1,0 +1,42 @@
+# TODO owner: S1 — Streamlit dashboard.
+# The image is built locally (make build). For Minikube, load it first:
+#   minikube image load dashboard:dev
+# Access it with: kubectl -n smart-healthcare port-forward svc/dashboard 8501:8501
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dashboard
+  namespace: smart-healthcare
+  labels:
+    app: dashboard
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: dashboard
+  template:
+    metadata:
+      labels:
+        app: dashboard
+    spec:
+      containers:
+        - name: dashboard
+          image: dashboard:dev
+          imagePullPolicy: IfNotPresent
+          envFrom:
+            - configMapRef:
+                name: app-config
+          ports:
+            - containerPort: 8501
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: dashboard
+  namespace: smart-healthcare
+spec:
+  selector:
+    app: dashboard
+  ports:
+    - port: 8501
+      targetPort: 8501

@@ -1,0 +1,14 @@
+# Tooling only: ruff (lint) and pytest settings.
+# Application dependencies live in requirements.txt and services/*/requirements.txt.
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+exclude = [".venv", "venv"]
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = [".", "services/api"]

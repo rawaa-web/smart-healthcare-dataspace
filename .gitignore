@@ -1,26 +1,30 @@
 # Python
 __pycache__/
-*.pyc
+*.py[cod]
 .venv/
 venv/
-env/
+.pytest_cache/
+.ruff_cache/
 
-# Données
-data/**/*.csv
-data/**/*.npz
-data/**/*.zip
-!data/**/.gitkeep
-
-# Docker / K8s
-*.log
-
-# IDE
-.vscode/
-.idea/
-
-# OS
-.DS_Store
-
-# Secrets EDC / configs sensibles
+# Environments and secrets — NEVER commit these
+.env
 *.env
 edc/**/*secrets*
+
+# Model artifacts
+*.pt
+*.pth
+*.pkl
+
+# Logs and app state
+*.log
+.streamlit/
+
+# IDE / OS
+.idea/
+.vscode/
+.DS_Store
+.zcodeignore
+
+# NOTE: data/hospitals/*.csv are intentionally NOT ignored
+# (small, public, reproducible datasets committed per docs/interfaces.md).

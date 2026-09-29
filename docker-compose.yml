@@ -1,0 +1,79 @@
+# Local stack used BEFORE Kubernetes. EDC connectors (S3, Java) are
+# intentionally absent for now — see services/edc/README.md.
+#
+# Each hospital client mounts ONLY its own CSV, read-only, at /data/data.csv:
+# raw data never leaves the hospital container.
+
+services:
+  flower-server:            # S2 — FedAvg server (folder: services/fl-server)
+    build:
+      context: ./services/fl-server
+    image: fl-server:dev
+    environment:
+      SERVER_ADDRESS: "0.0.0.0:8080"
+      NUM_ROUNDS: "5"
+      API_URL: "http://api:8000"
+    ports:
+      - "8080:8080"
+
+  fl-client-a:              # S2 — hospital A (folder: services/fl-client)
+    build:
+      context: .
+      dockerfile: services/fl-client/Dockerfile
+    image: fl-client:dev
+    environment:
+      HOSPITAL_ID: "a"
+      SERVER_ADDRESS: "flower-server:8080"
+      DATA_PATH: "/data/data.csv"
+    volumes:
+      - ./data/hospitals/a.csv:/data/data.csv:ro
+    depends_on:
+      - flower-server
+
+  fl-client-b:              # S2 — hospital B
+    build:
+      context: .
+      dockerfile: services/fl-client/Dockerfile
+    image: fl-client:dev
+    environment:
+      HOSPITAL_ID: "b"
+      SERVER_ADDRESS: "flower-server:8080"
+      DATA_PATH: "/data/data.csv"
+    volumes:
+      - ./data/hospitals/b.csv:/data/data.csv:ro
+    depends_on:
+      - flower-server
+
+  fl-client-c:              # S2 — hospital C
+    build:
+      context: .
+      dockerfile: services/fl-client/Dockerfile
+    image: fl-client:dev
+    environment:
+      HOSPITAL_ID: "c"
+      SERVER_ADDRESS: "flower-server:8080"
+      DATA_PATH: "/data/data.csv"
+    volumes:
+      - ./data/hospitals/c.csv:/data/data.csv:ro
+    depends_on:
+      - flower-server
+
+  api:                      # S4 — FastAPI gateway (folder: services/api)
+    build:
+      context: ./services/api
+    image: api:dev
+    environment:
+      MOCK_MODE: "true"
+    ports:
+      - "8000:8000"
+
+  dashboard:                # S1 — Streamlit UI (folder: services/dashboard)
+    build:
+      context: ./services/dashboard
+    image: dashboard:dev
+    environment:
+      API_URL: "http://api:8000"
+    ports:
+      - "8501:8501"
+    depends_on:
+      - api

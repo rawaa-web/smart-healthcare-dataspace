@@ -1,0 +1,17 @@
+# Keep Docker build contexts small (the fl-client image is built from the repo
+# root and must NOT ship the local virtualenvs, docs or git history).
+.git
+.venv
+venv
+**/__pycache__
+**/*.pyc
+.pytest_cache
+.ruff_cache
+.env
+.github
+.kube
+docs
+tests
+scripts
+k8s
+data

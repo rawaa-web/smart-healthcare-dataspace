@@ -1,0 +1,7 @@
+# Normalize line endings: LF everywhere, on every OS (Windows Git Bash included).
+* text=auto eol=lf
+
+# Binary files must not be touched
+*.png binary
+*.jpg binary
+*.ico binary

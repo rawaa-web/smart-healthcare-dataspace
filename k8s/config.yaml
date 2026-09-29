@@ -1,0 +1,12 @@
+# S5 — environment variables shared by all services.
+# Values mirror docker-compose.yml and docs/interfaces.md.
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: app-config
+  namespace: smart-healthcare
+data:
+  API_URL: "http://api:8000"
+  SERVER_ADDRESS: "flower-server:8080"
+  NUM_ROUNDS: "5"
+  MOCK_MODE: "true"

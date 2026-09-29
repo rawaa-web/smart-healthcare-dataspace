@@ -1,0 +1,100 @@
+# TODO owner: S2 — three hospital clients (A, B, C), one shared image.
+# TODO owner: S5 — mount each hospital CSV (ConfigMap or PVC) at /data/data.csv.
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: fl-client-a
+  namespace: smart-healthcare
+  labels:
+    app: fl-client
+    hospital: "a"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: fl-client
+      hospital: "a"
+  template:
+    metadata:
+      labels:
+        app: fl-client
+        hospital: "a"
+    spec:
+      containers:
+        - name: fl-client
+          image: fl-client:dev
+          imagePullPolicy: IfNotPresent
+          envFrom:
+            - configMapRef:
+                name: app-config
+          env:
+            - name: HOSPITAL_ID
+              value: "a"
+            - name: DATA_PATH
+              value: "/data/data.csv"
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: fl-client-b
+  namespace: smart-healthcare
+  labels:
+    app: fl-client
+    hospital: "b"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: fl-client
+      hospital: "b"
+  template:
+    metadata:
+      labels:
+        app: fl-client
+        hospital: "b"
+    spec:
+      containers:
+        - name: fl-client
+          image: fl-client:dev
+          imagePullPolicy: IfNotPresent
+          envFrom:
+            - configMapRef:
+                name: app-config
+          env:
+            - name: HOSPITAL_ID
+              value: "b"
+            - name: DATA_PATH
+              value: "/data/data.csv"
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: fl-client-c
+  namespace: smart-healthcare
+  labels:
+    app: fl-client
+    hospital: "c"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: fl-client
+      hospital: "c"
+  template:
+    metadata:
+      labels:
+        app: fl-client
+        hospital: "c"
+    spec:
+      containers:
+        - name: fl-client
+          image: fl-client:dev
+          imagePullPolicy: IfNotPresent
+          envFrom:
+            - configMapRef:
+                name: app-config
+          env:
+            - name: HOSPITAL_ID
+              value: "c"
+            - name: DATA_PATH
+              value: "/data/data.csv"

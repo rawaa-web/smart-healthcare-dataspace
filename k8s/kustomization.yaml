@@ -1,0 +1,15 @@
+# S5 — Kustomization of the smart-healthcare namespace.
+# EDC connectors (services/edc, Java) are intentionally excluded for now:
+# see services/edc/README.md.
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: smart-healthcare
+
+resources:
+  - namespace.yaml
+  - config.yaml
+  - fl-server.yaml
+  - fl-clients.yaml
+  - api.yaml
+  - dashboard.yaml

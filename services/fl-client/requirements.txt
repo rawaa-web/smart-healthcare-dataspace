@@ -1,0 +1,8 @@
+--extra-index-url https://download.pytorch.org/whl/cpu
+
+# S2: Flower client, built from the repo root (needs the shared ml/ package).
+torch==2.14.0
+flwr==1.39.0
+numpy==2.4.6
+pandas==3.0.6
+scikit-learn==1.9.1
